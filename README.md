@@ -385,12 +385,12 @@ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-
 #### Create OIDC Provider
 To allows the cluster to integrate with AWS IAM for assigning IAM roles to Kubernetes service accounts, enhancing security and management.
 ```
-eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=quizapp-eks-cluster --approve
+eksctl utils associate-iam-oidc-provider --region=eu-central-1 --cluster=security-iac-eks-cluster --approve
 ```
 #### Create Service Account 
 Add your aws 12-digit account ID
 ```
-eksctl create iamserviceaccount --cluster=quizapp-eks-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::<ACCOUNT-ID>:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=us-east-1
+eksctl create iamserviceaccount --cluster=security-iac-eks-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::315958996063:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=eu-central-1
 ```
 
 ![Screenshot 2024-02-28 at 2 56 12 PM](https://github.com/cloudcore-hub/Kubernetes-DevSecOps-CI-CD-Project/assets/88560609/6bb969ac-1118-482a-8b4c-bf5e9ecd8260)
@@ -401,7 +401,7 @@ Run the below command to deploy the AWS Load Balancer Controller using Helm
 sudo snap install helm --classic
 helm repo add eks https://aws.github.io/eks-charts
 helm repo update eks
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=quizapp-eks-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=security-iac-eks-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
 ```
 
 Wait for 2 minutes and run the following command below to check whether aws-load-balancer-controller pods are running or not.
